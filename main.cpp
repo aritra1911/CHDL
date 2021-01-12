@@ -43,19 +43,19 @@ class Pin {
         this->pin = &net;
     }
 
-    bool isConnected(void) {
+    bool isConnected(void) const {
         return this->pin;
     }
 
-    Wire* getNet(void) {
+    Wire* getNet(void) const {
         return &(*(this->pin));
     }
 
-    PinType getType(void) {
+    PinType getType(void) const {
         return type;
     }
 
-    float probe(void) {
+    float probe(void) const {
         return pin->voltage;
     }
 
@@ -81,7 +81,7 @@ class IC {
     public:
     bool isPowered(void);
 
-    void probePins(void) {
+    void probePins(void) const {
         for (uint8_t i=0; i<this->pins; i++) {
             std::cout  << "Pin " << (size_t)(i + 1) << ": ";
             if (!this->pin[i].isConnected())
@@ -111,7 +111,7 @@ class DemoNAND : public IC {
         this->pin[GND].defineAs(POWER);
     }
 
-    bool isPowered(void) {
+    bool isPowered(void) const {
         if (!this->pin[VCC].isConnected()) return false;
         if (!this->pin[GND].isConnected()) return false;
 
@@ -133,7 +133,7 @@ class DemoNAND : public IC {
         this->pin[pindx].connectTo(net);
     }
 
-    void probePin(Pins pindx) {
+    void probePin(Pins pindx) const {
         std::cout << "Pin " << (size_t)pindx << ": ";
         if (!this->pin[pindx].isConnected())
             std::cout << "Not Connected\n";
@@ -141,7 +141,7 @@ class DemoNAND : public IC {
             std::cout << this->pin[pindx].probe() << " Volts\n";
     }
 
-    Wire* getNet(Pins pindx) {
+    Wire* getNet(Pins pindx) const {
         return this->pin[pindx].getNet();
     }
 };
