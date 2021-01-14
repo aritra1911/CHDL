@@ -8,6 +8,9 @@ enum PinType : uint8_t {
 
 struct Wire {
     float voltage;
+
+    Wire(void);
+    Wire(float);
     bool operator ==(Wire&);
 };
 
@@ -48,6 +51,6 @@ class DemoNAND : public IC {
     bool isPowered(void) const;
     void compute(void);
     void connect(Pins, Wire&);
-    void probePin(Pins) const;
+    float probePin(Pins) const;
     Wire* getNet(Pins) const;
 };

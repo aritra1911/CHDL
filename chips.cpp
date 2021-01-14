@@ -1,8 +1,17 @@
 #include <iostream>
+#include <cmath>
 #include "chips.hpp"
 
+Wire::Wire(void) {
+    this->voltage = NAN;
+}
+
+Wire::Wire(float voltage) {
+    this->voltage = voltage;
+}
+
 bool Wire::operator ==(Wire& wire) {
-    return voltage == wire.voltage;
+    return this->voltage == wire.voltage;
 }
 
 Pin::Pin(PinType t) {
@@ -28,7 +37,7 @@ bool Pin::isConnected(void) const {
 }
 
 Wire* Pin::getNet(void) const {
-    return &(*(this->pin));
+    return this->pin;
 }
 
 PinType Pin::getType(void) const {
@@ -36,7 +45,7 @@ PinType Pin::getType(void) const {
 }
 
 float Pin::probe(void) const {
-    return pin->voltage;
+    return pin ? pin->voltage : NAN;
 }
 
 void Pin::transition(float voltage) {
@@ -95,12 +104,8 @@ void DemoNAND::connect(Pins pindx, Wire& net) {
     this->pin[pindx].connectTo(net);
 }
 
-void DemoNAND::probePin(Pins pindx) const {
-    std::cout << "Pin " << (size_t)pindx << ": ";
-    if (!this->pin[pindx].isConnected())
-        std::cout << "Not Connected\n";
-    else
-        std::cout << this->pin[pindx].probe() << " Volts\n";
+float DemoNAND::probePin(Pins pindx) const {
+    return this->pin[pindx].probe();
 }
 
 Wire* DemoNAND::getNet(Pins pindx) const {
