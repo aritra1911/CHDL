@@ -36,6 +36,10 @@ class IC {
     Pin* pin;  // Stores the state of each pin; either 0 or 1;
     double min_tp, max_tp;  // TODO, forget about these for now
 
+    virtual float getPowerDelta(void) = 0;
+    virtual float getGround(void) = 0;
+    float getVoltageByLogicLevel(uint8_t);
+
     public:
     virtual bool isPowered(void) const = 0;
     void probePins(void) const;
@@ -44,11 +48,15 @@ class IC {
 
 class DemoNAND : public IC {
     /* A 5-pin Single Gate NAND Chip */
+    float getPowerDelta(void);
+    float getGround(void);
+
     public:
     enum Pins : uint8_t { VCC, IN0, IN1, OUT, GND };
 
     DemoNAND(void);
     bool isPowered(void) const;
+    float getVoltageByLogic(uint8_t);
     void compute(void);
     void connect(Pins, Wire&);
     float probePin(Pins) const;

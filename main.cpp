@@ -2,7 +2,7 @@
 #include <cmath>
 #include "chips.hpp"
 
-Wire POSITIVE_RAIL = 5 VOLTS;
+Wire POSITIVE_RAIL = 3.3 VOLTS;
 Wire GROUND_RAIL = 0 VOLTS;
 
 void inline showVoltage(float);
